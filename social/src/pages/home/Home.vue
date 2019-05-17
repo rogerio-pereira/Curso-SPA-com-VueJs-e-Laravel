@@ -1,5 +1,7 @@
 <template>
   <div>
+    <navbar cor='green darken-1' logo='Social' url='/'></navbar>
+
     <h2>Social</h2>
 
     
@@ -23,8 +25,13 @@
 </template>
 
 <script>
+import Navbar from '@/components/layouts/Navbar'
+
 export default {
   name: 'Home',
+  components: {
+    Navbar
+  },
   data () {
     return {
     }
