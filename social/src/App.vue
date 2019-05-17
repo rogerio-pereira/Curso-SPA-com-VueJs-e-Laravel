@@ -21,6 +21,9 @@
                             </grid>
                         </div>
                     </card-menu-vue>
+                    <card-menu-vue>
+                        <h3>Teste</h3>
+                    </card-menu-vue>
                 </grid-vue>
 
                 <grid-vue tamanho="8">
