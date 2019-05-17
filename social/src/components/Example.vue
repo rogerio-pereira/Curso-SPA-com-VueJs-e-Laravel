@@ -5,6 +5,8 @@
 <script>
 export default {
   name: 'Example',
+  props:[
+  ],
   data () {
     return {
     }
