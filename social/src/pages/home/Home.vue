@@ -1,5 +1,6 @@
 <template>
-    <card-conteudo-vue />
+    <card-conteudo-vue perfil='https://materializecss.com/images/yuna.jpg' nome='Rogerio Pereira' data='17/05/2019 12:30'>
+    </card-conteudo-vue>
 </template>
 
 <script>
