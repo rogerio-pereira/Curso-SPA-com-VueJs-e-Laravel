@@ -3,15 +3,15 @@
         <span slot='menu-esquerdo'>
             <card-menu-vue>
                 <div class="row valign-wrapper">
-                    <grid tamanho="4">
+                    <grid-vue tamanho="4">
                         <img src="https://materializecss.com/images/yuna.jpg" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
-                    </grid>
-                    <grid tamanho="8">
+                    </grid-vue>
+                    <grid-vue tamanho="8">
                         <span class="black-text">
                             <h5>Rogerio</h5>
                             Add the "circle" class to it to make it appear circular.
                         </span>
-                    </grid>
+                    </grid-vue>
                 </div>
             </card-menu-vue>
             <card-menu-vue>
@@ -39,6 +39,7 @@ import CardConteudoVue from '@/components/social/CardConteudoVue'
 import CardDetalheVue from '@/components/social/CardDetalheVue'
 import PublicarConteudoVue from '@/components/social/PublicarConteudoVue'
 import CardMenuVue from '@/components/layouts/CardMenuVue'
+import GridVue from '@/components/layouts/GridVue'
 
 export default {
     name: 'Home',
@@ -47,7 +48,8 @@ export default {
         CardConteudoVue,
         CardDetalheVue,
         PublicarConteudoVue,
-        CardMenuVue
+        CardMenuVue,
+        GridVue
     },
     data () {
         return {
