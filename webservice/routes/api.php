@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/usuario', function (Request $request) {
     return $request->user();
 });
 
@@ -23,5 +23,8 @@ Route::post('/cadastro', function (Request $request) {
     $data = $request->all();
     $data['password'] = bcrypt($data['password']);
 
-    return User::create($data);
+    $user = User::create($data);
+    $user->token = $user->createToken($user->email)->accessToken;
+
+    return $user;
 });
