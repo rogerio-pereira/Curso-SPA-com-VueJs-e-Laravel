@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Http\Request;
 
 /*
@@ -18,6 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/teste', function (Request $request) {
-    return $request->all();
+Route::post('/cadastro', function (Request $request) {
+    $data = $request->all();
+    $data['password'] = bcrypt($data['password']);
+
+    return User::create($data);
 });
