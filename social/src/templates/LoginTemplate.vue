@@ -1,9 +1,9 @@
 <template>
     <span>
         <header>
-            <navbar cor='green darken-1' logo='Social' url='#/'>
-                <li><a href="#/">Home</a></li>
-                <li><a href="#/login">Entrar</a></li>
+            <navbar cor='green darken-1' logo='Social' url='/'>
+                <li><router-link to='/'>Home</router-link></li>
+                <li><router-link to="/login">Entrar</router-link></li>
             </navbar>
         </header>
 
