@@ -38,3 +38,24 @@ Route::post('/cadastro', function (Request $request) {
 
     return $user;
 });
+
+Route::post('/login', function (Request $request) {
+    $data = $request->all();
+
+    $validacao = Validator::make($data, [
+                    'email' => 'required|string|email|max:255',
+                    'password' => 'required|string',
+                ]);
+
+    if($validacao->fails())
+        return $validacao->errors();
+
+    if(Auth::attempt($data)) {
+        $user = auth::user();
+        $user->token = $user->createToken($user->email)->accessToken;
+    
+        return $user;
+    }
+    else
+        return ['status' => false];
+});
