@@ -1,7 +1,10 @@
 <template>
     <span>
         <header>
-            <navbar cor='green darken-1' logo='Social' url='/' />
+            <navbar cor='green darken-1' logo='Social' url='#/'>
+                <li><a href="#/">Home</a></li>
+                <li><a href="#/login">Entrar</a></li>
+            </navbar>
         </header>
 
         <main>

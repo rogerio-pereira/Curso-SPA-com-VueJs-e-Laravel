@@ -1,35 +1,23 @@
 <template>
     <span>
         <header>
-            <navbar cor='green darken-1' logo='Social' url='/' />
+            <navbar cor='green darken-1' logo='Social' url='#/' >
+                <li><a href="#/">Home</a></li>
+                <li><a href="#/login">Entrar</a></li>
+            </navbar>
         </header>
 
         <main>
             <div class='container'>
-            <div class='row'>
-                <grid-vue tamanho="4">
-                    <card-menu-vue>
-                        <div class="row valign-wrapper">
-                            <grid tamanho="4">
-                                <img src="https://materializecss.com/images/yuna.jpg" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
-                            </grid>
-                            <grid tamanho="8">
-                                <span class="black-text">
-                                    <h5>Rogerio</h5>
-                                    Add the "circle" class to it to make it appear circular.
-                                </span>
-                            </grid>
-                        </div>
-                    </card-menu-vue>
-                    <card-menu-vue>
-                        <h3>Teste</h3>
-                    </card-menu-vue>
-                </grid-vue>
+                <div class='row'>
+                    <grid-vue tamanho="4">
+                        <slot name='menu-esquerdo' />
+                    </grid-vue>
 
-                <grid-vue tamanho="8">
-                    <slot />
-                </grid-vue>
-            </div>
+                    <grid-vue tamanho="8">
+                        <slot name='principal' />
+                    </grid-vue>
+                </div>
             </div>
         </main>
 
@@ -46,15 +34,13 @@
 import Navbar from '@/components/layouts/Navbar'
 import FooterVue from '@/components/layouts/FooterVue'
 import GridVue from '@/components/layouts/GridVue'
-import CardMenuVue from '@/components/layouts/CardMenuVue'
 
 export default {
     name: 'SiteTemplate',
     components: {
         Navbar,
         FooterVue,
-        GridVue,
-        CardMenuVue
+        GridVue
     },
 }
 </script>
