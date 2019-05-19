@@ -2,6 +2,7 @@
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +22,17 @@ Route::middleware('auth:api')->get('/usuario', function (Request $request) {
 
 Route::post('/cadastro', function (Request $request) {
     $data = $request->all();
-    $data['password'] = bcrypt($data['password']);
 
+    $validacao = Validator::make($data, [
+                    'name' => 'required|string|max:255',
+                    'email' => 'required|string|email|max:255|unique:users',
+                    'password' => 'required|string|min:6|confirmed',
+                ]);
+
+    if($validacao->fails())
+        return $validacao->errors();
+
+    $data['password'] = bcrypt($data['password']);
     $user = User::create($data);
     $user->token = $user->createToken($user->email)->accessToken;
 
