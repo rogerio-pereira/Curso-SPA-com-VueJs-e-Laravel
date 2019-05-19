@@ -45,14 +45,23 @@ export default {
                 else if(response.data.status == false) {
                     //login não existe
                     console.log('login não existe')
+                    alert('Login inválido')
                 }
                 else {
                     //Erros de validação
                     console.log('Erros de validação')
+                    let errors = '';
+
+                    for(let error of Object.values(response.data)) {
+                        errors += error + " ";
+                    }
+
+                    alert(errors)
                 }
             })
             .catch(e => {
                 console.log(e)
+                alert('Erro! Tente novamente mais tarde')
             })
         }
     }
