@@ -36,11 +36,12 @@ export default {
                 password: this.password
             })
             .then(response => {
-                console.log(response)
+                //console.log(response)
 
                 if(response.data.token) {
                     //login com sucesso
                     console.log('login com sucesso')
+                    sessionStorage.setItem('usuario', JSON.stringify(response.data));
                 }
                 else if(response.data.status == false) {
                     //login não existe

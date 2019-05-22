@@ -3,8 +3,10 @@
         <header>
             <navbar cor='green darken-1' logo='Social' url='/'>
                 <li><router-link to='/'>Home</router-link></li>
-                <li><router-link to="/login">Entrar</router-link></li>
-                <li><router-link to="/cadastro">Cadastre-se</router-link></li>
+                <li v-if='!usuario'><router-link to="/login">Entrar</router-link></li>
+                <li v-if='!usuario'><router-link to="/cadastro">Cadastre-se</router-link></li>
+                <li v-if='usuario'><router-link to="/perfil">{{usuario.name}}</router-link></li>
+                <li v-if='usuario'><a v-on:click='sair()'>Sair</a></li>
             </navbar>
         </header>
 
@@ -47,6 +49,25 @@ export default {
         GridVue,
         CardMenuVue
     },
+    data() {
+        return {
+            usuario: false
+        }
+    },
+    created() {
+        console.log('created');
+        let usuarioAux = sessionStorage.getItem('usuario');
+
+        if(usuarioAux) {
+            this.usuario = JSON.parse(usuarioAux);
+        }
+    },
+    methods: {
+        sair() {
+            sessionStorage.clear();
+            this.usuario = false;
+        }
+    }
 }
 </script>
 
