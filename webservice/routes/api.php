@@ -59,3 +59,10 @@ Route::post('/login', function (Request $request) {
     else
         return ['status' => false];
 });
+
+Route::middleware('auth:api')->put('/perfil', function (Request $request) {
+    $user = $request->user();
+    $data = $request->all();
+
+    return $data;
+});

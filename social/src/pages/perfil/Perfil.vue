@@ -53,25 +53,28 @@ export default {
     },
     methods: {
         perfil() {
-            axios.post('http://localhost:8000/api/perfil', {
+            axios.put('http://localhost:8000/api/perfil', {
                 name: this.name,
                 email: this.email,
                 password: this.password,
                 password_confirmation: this.password_confirmation
+            }, {
+                'headers':{
+                    'authorization': 'Bearer '+this.usuario.token
+                }
             })
             .then(response => {
                 //console.log(response)
 
-                if(response.data.token) {
+                //if(response.data.token) {
                     //Cadastro realizado com sucesso
-                    console.log('Cadastro realizado com sucesso')
-                    sessionStorage.setItem('usuario', JSON.stringify(response.data));
-                    this.$router.push('/');
-                }
+                    console.log('Cadastro realizado com sucesso');
+                    console.log(response.data)
+                /*}
                 else if(response.data.status == false) {
                     //lErro no cadastro
-                    console.log('Erro no cadastro, tente novamente mais tarde')
-                    alert('Erro no cadastro, tente novamente mais tarde')
+                    console.log('Erro no cadastro, tente novamente mais tarde');
+                    alert('Erro no cadastro, tente novamente mais tarde');
                 }
                 else {
                     //Erros de validação
@@ -83,7 +86,7 @@ export default {
                     }
 
                     alert(errors)
-                }
+                }*/
             })
             .catch(e => {
                 console.log(e)
