@@ -6,12 +6,20 @@
         <span slot='principal'>
             <h2>Perfil</h2>
 
-            <input type='text' placeholder='Nome' v-model='nome'>
+            <input type='text' placeholder='Nome' v-model='name'>
             <input type='email' placeholder='E-mail' v-model='email'>
+            <div class="file-field input-field">
+                <div class="btn">
+                    <span>Imagem</span>
+                    <input type="file">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
             <input type='password' placeholder='Senha' v-model='password'>
             <input type='password' placeholder='Confirme a senha' v-model='password_confirmation'>
-            <button class='btn' v-on:click='cadastro()'>Enviar</button>
-            <router-link to="/login" class='btn orange'>Ja tenho conta</router-link>
+            <button class='btn' v-on:click='perfil()'>Atualizar</button>
         </span>
     </site-template>
 </template>
@@ -27,16 +35,26 @@ export default {
     },
     data () {
         return {
+            usuario:false,
             nome:'',
             email:'',
             password:'',
             password_confirmation:''
         }
     },
+    created() {
+        let usuarioAux = sessionStorage.getItem('usuario');
+
+        if(usuarioAux) {
+            this.usuario = JSON.parse(usuarioAux);
+            this.name = this.usuario.name;
+            this.email = this.usuario.email;
+        }
+    },
     methods: {
-        cadastro() {
-            axios.post('http://localhost:8000/api/cadastro', {
-                name: this.nome,
+        perfil() {
+            axios.post('http://localhost:8000/api/perfil', {
+                name: this.name,
                 email: this.email,
                 password: this.password,
                 password_confirmation: this.password_confirmation
