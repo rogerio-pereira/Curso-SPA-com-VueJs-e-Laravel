@@ -102,6 +102,12 @@ Route::middleware('auth:api')->put('/perfil', function (Request $request) {
         $file = str_replace('data:image/'.$ext.';base64,', '', $data['imagem']);
         $file = base64_decode($file);
 
+        if($user->imagem){
+            if(file_exists($user->imagem)) {
+                Storage::delete($user->imagem);
+            }
+        }
+
         Storage::put($urlImagem, $file);
 
         $user->imagem = $urlImagem; 
