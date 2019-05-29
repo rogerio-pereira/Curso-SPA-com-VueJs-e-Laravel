@@ -18,7 +18,6 @@
 
 <script>
 import LoginTemplate from '@/templates/LoginTemplate'
-import axios from 'axios';
 
 export default {
     name: 'Cadastro',
@@ -35,7 +34,7 @@ export default {
     },
     methods: {
         cadastro() {
-            axios.post('http://localhost:8000/api/cadastro', {
+            this.$http.post(this.$urlAPI+'cadastro', {
                 name: this.nome,
                 email: this.email,
                 password: this.password,
