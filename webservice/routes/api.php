@@ -33,34 +33,18 @@ Route::post('/cadastro', function (Request $request) {
     if($validacao->fails())
         return $validacao->errors();
 
+    $imagem = '/perfils/padrao.png';
+    $data['imagem'] = $imagem;
+
     $data['password'] = bcrypt($data['password']);
     $user = User::create($data);
     $user->token = $user->createToken($user->email)->accessToken;
 
+    $user->imagem = asset($user->imagem); 
     return $user;
 });
 
-Route::post('/login', function (Request $request) {
-    $data = $request->all();
-
-    $validacao = Validator::make($data, [
-                    'email' => 'required|string|email|max:255',
-                    'password' => 'required|string',
-                ]);
-
-    if($validacao->fails())
-        return $validacao->errors();
-
-    if(Auth::attempt($data)) {
-        $user = auth::user();
-        $user->token = $user->createToken($user->email)->accessToken;
-    
-        $user->imagem = asset($user->imagem); 
-        return $user;
-    }
-    else
-        return ['status' => false];
-});
+Route::post('/login', 'UsuarioController@login');
 
 Route::middleware('auth:api')->put('/perfil', function (Request $request) {
     $user = $request->user();
