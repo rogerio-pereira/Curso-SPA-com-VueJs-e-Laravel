@@ -55,6 +55,7 @@ Route::post('/login', function (Request $request) {
         $user = auth::user();
         $user->token = $user->createToken($user->email)->accessToken;
     
+        $user->imagem = asset($user->imagem); 
         return $user;
     }
     else
