@@ -17,6 +17,7 @@ Route::middleware('auth:api')->put('/perfil', 'UsuarioController@perfil');
 
 Route::get('/testes', function(){
     $user = App\User::find(1);
+    $user2 = App\User::find(3);
     
     //Cria Conteudo
     /*$user->conteudos()->create([
@@ -28,4 +29,15 @@ Route::get('/testes', function(){
     ]);
 
     return $user->conteudos;*/
+
+    
+    //Adiciona Amigo
+    //$user->amigos()->attach($user2);
+    //Remover Amigo
+    //$user->amigos()->detach($user2);
+    //Adicionar/remove amigo
+    //$user->amigos()->toggle($user2);
+
+    
+    return $user->amigos;
 });
