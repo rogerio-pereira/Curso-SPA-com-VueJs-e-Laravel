@@ -1,7 +1,7 @@
 <template>
     <site-template>
         <span slot='menu-esquerdo'>
-            <img src='https://bizcapital.com.br/blog/wp-content/uploads/2019/02/Img_Redes_Sociais_para_Neg%C3%B3cios_2-2-848x400.png' class='responsive-img'>
+            <img :src='usuario.imagem' class='responsive-img'>
         </span>
         <span slot='principal'>
             <h2>Perfil</h2>
@@ -64,8 +64,6 @@ export default {
             };
 
             reader.readAsDataURL(arquivo[0]);
-
-            console.log(this.imagem);
         },
         perfil() {
             axios.put('http://localhost:8000/api/perfil', {
@@ -86,6 +84,7 @@ export default {
                     //Cadastro realizado com sucesso
                     console.log('Cadastro realizado com sucesso');
                     console.log(response.data);
+                    this.usuario = response.data;
                     sessionStorage.setItem('usuario', JSON.stringify(response.data));
                     alert('Perfil atualizado');
                 }

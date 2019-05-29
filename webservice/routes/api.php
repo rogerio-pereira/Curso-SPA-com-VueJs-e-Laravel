@@ -65,6 +65,7 @@ Route::middleware('auth:api')->put('/perfil', function (Request $request) {
     $user = $request->user();
     $data = $request->all();
 
+    //Validação com Senha
     if(isset($data['password'])) {
         $validacao = Validator::make($data, [
                         'name' => 'required|string|max:255',
@@ -74,6 +75,7 @@ Route::middleware('auth:api')->put('/perfil', function (Request $request) {
 
         $user->password = bcrypt($data['password']);
     }
+    //Validação sem senha
     else {
         $validacao = Validator::make($data, [
                         'name' => 'required|string|max:255',
@@ -86,8 +88,28 @@ Route::middleware('auth:api')->put('/perfil', function (Request $request) {
 
     $user->name = $data['name'];
     $user->email = $data['email'];
+
+    //Imagem
+    if(isset($data['imagem'])) {
+        $time = time();
+        $diretorioPai = 'perfils';
+        $diretorioImagem = $diretorioPai.DIRECTORY_SEPARATOR.'perfil_id'.$user->id;
+
+        //Pegar extensão da imagem
+        $ext = substr($data['imagem'], 11, strpos($data['imagem'], ';') -11);
+        $urlImagem = $diretorioImagem.DIRECTORY_SEPARATOR.$time.'.'.$ext;
+
+        $file = str_replace('data:image/'.$ext.';base64,', '', $data['imagem']);
+        $file = base64_decode($file);
+
+        Storage::put($urlImagem, $file);
+
+        $user->imagem = $urlImagem; 
+    }
+
     $user->save();
 
+    $user->imagem = asset($user->imagem); 
     $user->token = $user->createToken($user->email)->accessToken;
 
     return $user;
