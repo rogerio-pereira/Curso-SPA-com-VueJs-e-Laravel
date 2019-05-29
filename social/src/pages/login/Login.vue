@@ -37,27 +37,25 @@ export default {
             .then(response => {
                 //console.log(response)
 
-                if(response.data.token) {
+                if(response.data.status) {
                     //login com sucesso
                     console.log('login com sucesso')
-                    sessionStorage.setItem('usuario', JSON.stringify(response.data));
+                    sessionStorage.setItem('usuario', JSON.stringify(response.data.usuario));
                     this.$router.push('/');
                 }
-                else if(response.data.status == false) {
-                    //login não existe
-                    console.log('login não existe')
-                    alert('Login inválido')
-                }
-                else {
+                else if(response.data.status == false && response.data.validacao) {
                     //Erros de validação
-                    console.log('Erros de validação')
                     let errors = '';
 
-                    for(let error of Object.values(response.data)) {
+                    for(let error of Object.values(response.data.erros)) {
                         errors += error + " ";
                     }
 
-                    alert(errors)
+                    alert(errors);
+                }
+                else {
+                    //login não existe
+                    alert('Login inválido');
                 }
             })
             .catch(e => {

@@ -43,27 +43,25 @@ export default {
             .then(response => {
                 //console.log(response)
 
-                if(response.data.token) {
+                if(response.data.status) {
                     //Cadastro realizado com sucesso
                     console.log('Cadastro realizado com sucesso')
-                    sessionStorage.setItem('usuario', JSON.stringify(response.data));
+                    sessionStorage.setItem('usuario', JSON.stringify(response.data.usuario));
                     this.$router.push('/');
                 }
-                else if(response.data.status == false) {
-                    //lErro no cadastro
-                    console.log('Erro no cadastro, tente novamente mais tarde')
-                    alert('Erro no cadastro, tente novamente mais tarde')
-                }
-                else {
+                else if(response.data.status == false && response.data.validacao) {
                     //Erros de validação
-                    console.log('Erros de validação')
                     let errors = '';
 
-                    for(let error of Object.values(response.data)) {
+                    for(let error of Object.values(response.data.erros)) {
                         errors += error + " ";
                     }
 
-                    alert(errors)
+                    alert(errors);
+                }
+                else {
+                    //erro no cadastro
+                    alert('Erro no cadastro! Tente novamente mais tarde.');
                 }
             })
             .catch(e => {

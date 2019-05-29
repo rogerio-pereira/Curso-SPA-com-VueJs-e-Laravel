@@ -22,7 +22,11 @@ class UsuarioController extends Controller
                     ]);
 
         if($validacao->fails())
-            return $validacao->errors();
+            return [
+                'status' => false,
+                'validacao' => true,
+                'erros' => $validacao->errors()
+            ];
 
         $imagem = '/perfils/padrao.png';
         $data['imagem'] = $imagem;
@@ -32,7 +36,8 @@ class UsuarioController extends Controller
         $user->token = $user->createToken($user->email)->accessToken;
 
         $user->imagem = asset($user->imagem); 
-        return $user;
+            
+        return ['status' => true, 'usuario' => $user];
     }
 
     public function login(Request $request)
@@ -45,14 +50,19 @@ class UsuarioController extends Controller
                     ]);
 
         if($validacao->fails())
-            return $validacao->errors();
+            return [
+                    'status' => false,
+                    'validacao' => true,
+                    'erros' => $validacao->errors()
+                ];
 
         if(Auth::attempt($data)) {
             $user = auth::user();
             $user->token = $user->createToken($user->email)->accessToken;
         
             $user->imagem = asset($user->imagem); 
-            return $user;
+            
+            return ['status' => true, 'usuario' => $user];
         }
         else
             return ['status' => false];
@@ -82,7 +92,11 @@ class UsuarioController extends Controller
         }
 
         if($validacao->fails())
-            return $validacao->errors();
+            return [
+                'status' => false,
+                'validacao' => true,
+                'erros' => $validacao->errors()
+            ];
 
         $user->name = $data['name'];
         $user->email = $data['email'];
@@ -125,7 +139,11 @@ class UsuarioController extends Controller
                             ]);
 
             if($validacao->fails())
-                return $validacao->errors();
+                return [
+                    'status' => false,
+                    'validacao' => true,
+                    'erros' => $validacao->errors()
+                ];
 
             $time = time();
             $diretorioPai = 'perfils';
@@ -154,11 +172,6 @@ class UsuarioController extends Controller
         $user->imagem = asset($user->imagem); 
         $user->token = $user->createToken($user->email)->accessToken;
 
-        return $user;
-    }
-
-    public function usuario(Request $request)
-    {
-        return $request->user();
+        return ['status' => true, 'usuario' => $user];
     }
 }

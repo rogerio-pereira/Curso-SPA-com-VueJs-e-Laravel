@@ -79,20 +79,18 @@ export default {
             .then(response => {
                 //console.log(response)
 
-                if(response.data.token) {
+                if(response.data.status) {
                     //Cadastro realizado com sucesso
-                    console.log('Cadastro realizado com sucesso');
-                    console.log(response.data);
-                    this.usuario = response.data;
-                    sessionStorage.setItem('usuario', JSON.stringify(response.data));
+                    //console.log(response.data);
+                    this.usuario = response.data.usuario;
+                    sessionStorage.setItem('usuario', JSON.stringify(this.usuario));
                     alert('Perfil atualizado');
                 }
-                else {
+                else if(response.data.status == false && response.data.validacao) {
                     //Erros de validação
-                    console.log('Erros de validação')
                     let errors = '';
 
-                    for(let error of Object.values(response.data)) {
+                    for(let error of Object.values(response.data.erros)) {
                         errors += error + " ";
                     }
 
