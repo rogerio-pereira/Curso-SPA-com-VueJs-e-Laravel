@@ -37,7 +37,29 @@ Route::get('/testes', function(){
     //$user->amigos()->detach($user2);
     //Adicionar/remove amigo
     //$user->amigos()->toggle($user2);
+    //return $user->amigos;
 
-    
-    return $user->amigos;
+
+
+    //Adiciona Curtida
+    /*$conteudo = App\Conteudo::find(1);
+    $user->curtidas()->toggle($conteudo->id);
+    //return $conteudo->curtidas()->count();
+    return $conteudo->curtidas;*/
+
+
+
+    //Adiciona Comentario
+    /*$conteudo = App\Conteudo::find(1);
+    $user->comentarios()->create([
+        'conteudo_id' => $conteudo->id,
+        'texto' => 'Show de bola',
+        'data' => date('Y-m-d'),
+    ]);
+    $user2->comentarios()->create([
+        'conteudo_id' => $conteudo->id,
+        'texto' => 'Não gostei',
+        'data' => date('Y-m-d'),
+    ]);
+    return $conteudo->comentarios;*/
 });
