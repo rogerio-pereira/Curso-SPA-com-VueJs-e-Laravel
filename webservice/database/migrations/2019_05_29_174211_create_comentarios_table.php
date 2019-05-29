@@ -15,7 +15,21 @@ class CreateComentariosTable extends Migration
     {
         Schema::create('comentarios', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->integer('conteudo_id')->unsigned();
+            $table->longText('texto');
+            $table->dateTime('data');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('conteudo_id')
+                ->references('id')
+                ->on('conteudos')
+                ->onDelete('cascade');
         });
     }
 
