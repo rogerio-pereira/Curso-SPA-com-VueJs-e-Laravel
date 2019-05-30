@@ -4,15 +4,38 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios';
+import Vuex from 'vuex';
 
+Vue.use(Vuex)
 Vue.config.productionTip = false
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.prototype.$urlAPI = 'http://localhost:8000/api/'
 
+var store = {
+  state: {
+    nome: 'Rede Social',
+    sobrenome: 'Pereira'
+  },
+  getters: {
+    getNome: state => {
+      return state.nome;
+    },
+    getNomeCompleto: state => {
+      return state.nome+' '+state.sobrenome;
+    }
+  },
+  mutations: {
+    setNome(state, n) {
+      state.nome = n;
+    }
+  }
+};
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store: new Vuex.Store(store),
   router,
   components: { App },
   template: '<App/>'
