@@ -8,8 +8,8 @@
             <label>O que está acontecendo?</label>
         </grid-vue>
         
-        <p>
-            <grid-vue v-if='conteudo.titulo && conteudo.texto' class='btn waves-effect waves-light' tamanho='2 offset-s10'>Publicar</grid-vue>
+        <p class='right-align'>
+            <button @click='adicionaConteudo()' v-if='conteudo.titulo && conteudo.texto' class='btn waves-effect waves-light'>Publicar</button>
         </p>
     </div>
 </template>
@@ -32,6 +32,12 @@ export default {
                 link:'',
                 imagem:''
             }
+        }
+    },
+    methods:{
+        adicionaConteudo() {
+            console.log(this.conteudo);
+            this.$http.post(this.$urlAPI+'conteudo/adicionar', conteudo: this.conteudo, {})
         }
     }
 }
