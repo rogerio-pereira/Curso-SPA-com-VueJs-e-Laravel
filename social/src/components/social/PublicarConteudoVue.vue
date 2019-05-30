@@ -23,6 +23,7 @@ export default {
         GridVue
     },
     props:[
+        'usuario'
     ],
     data () {
         return {
@@ -37,7 +38,24 @@ export default {
     methods:{
         adicionaConteudo() {
             console.log(this.conteudo);
-            this.$http.post(this.$urlAPI+'conteudo/adicionar', conteudo: this.conteudo, {})
+            this.$http.post(this.$urlAPI+'conteudo/adicionar', {
+                titulo: this.conteudo.titulo,
+                texto: this.conteudo.texto,
+                link: this.conteudo.link,
+                imagem: this.conteudo.imagem,
+            }, {
+                'headers':{
+                    'authorization': 'Bearer '+this.usuario.token
+                }
+            }).then(response => {
+                if(response.data.status){
+                    console.log(response.data.conteudos);
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                alert('Erro! Tente novamente mais tarde')
+            })
         }
     }
 }
