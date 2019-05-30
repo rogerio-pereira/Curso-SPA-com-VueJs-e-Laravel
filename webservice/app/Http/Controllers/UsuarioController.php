@@ -35,7 +35,7 @@ class UsuarioController extends Controller
         $user = User::create($data);
         $user->token = $user->createToken($user->email)->accessToken;
 
-        $user->imagem = asset($user->imagem); 
+        //$user->imagem = asset($user->imagem); 
             
         return ['status' => true, 'usuario' => $user];
     }
@@ -60,7 +60,7 @@ class UsuarioController extends Controller
             $user = auth::user();
             $user->token = $user->createToken($user->email)->accessToken;
         
-            $user->imagem = asset($user->imagem); 
+            //$user->imagem = asset($user->imagem); 
             
             return ['status' => true, 'usuario' => $user];
         }
@@ -169,7 +169,7 @@ class UsuarioController extends Controller
 
         $user->save();
 
-        $user->imagem = asset($user->imagem); 
+        //$user->imagem = asset($user->imagem); 
         $user->token = $user->createToken($user->email)->accessToken;
 
         return ['status' => true, 'usuario' => $user];
