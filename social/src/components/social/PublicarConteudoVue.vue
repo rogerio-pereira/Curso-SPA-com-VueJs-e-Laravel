@@ -23,7 +23,7 @@ export default {
         GridVue
     },
     props:[
-        'usuario'
+        
     ],
     data () {
         return {
@@ -45,7 +45,7 @@ export default {
                 imagem: this.conteudo.imagem,
             }, {
                 'headers':{
-                    'authorization': 'Bearer '+this.usuario.token
+                    'authorization': 'Bearer '+this.$store.getters.getToken
                 }
             }).then(response => {
                 if(response.data.status){
