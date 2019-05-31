@@ -27,6 +27,8 @@
                 v-for='item in listaConteudos' 
                 :key='item.id' 
                 :id='item.id' 
+                :totalcurtidas='item.curtidas'
+                :curtiuconteudo='item.curtiuconteudo'
                 :perfil='item.user.imagem' 
                 :nome='item.user.name' 
                 :data='item.data'

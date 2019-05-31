@@ -11,6 +11,18 @@ class ConteudoController extends Controller
     public function lista(Request $request)
     {
         $conteudos = Conteudo::with('user')->orderBy('data', 'DESC')->paginate(5);
+        $user = $request->user();
+
+        foreach($conteudos as $conteudo) {
+            $conteudo->curtidas = $conteudo->curtidas()->count();
+
+            $curtiu = $user->curtidas()->find($conteudo->id);
+
+            if($curtiu)
+                $conteudo->curtiuconteudo = true;
+            else
+                $conteudo->curtiuconteudo = false;
+        }
 
         return ['status' => true, 'conteudos' => $conteudos];
     }
@@ -56,7 +68,11 @@ class ConteudoController extends Controller
             
             $user->curtidas()->toggle($conteudo->id);
 
-            return ['status' => true, 'curtidas' => $conteudo->curtidas()->count()];
+            return [
+                'status' => true, 
+                'curtidas' => $conteudo->curtidas()->count(),
+                'lista' => $this->lista($request),
+            ];
         }
         else
             return ['status' => false, 'erro' => 'Conteúdo não existe!'];

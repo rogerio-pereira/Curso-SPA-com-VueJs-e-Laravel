@@ -41,12 +41,14 @@ export default {
         'id',
         'perfil',
         'nome',
-        'data'
+        'data',
+        'totalcurtidas',
+        'curtiuconteudo'
     ],
     data () {
         return {
-            curtiu:'favorite_border',
-            totalCurtidas: 0
+            curtiu: this.curtiuconteudo ? 'favorite' : 'favorite_border',
+            totalCurtidas: this.totalcurtidas
         }
     },
     methods: {
@@ -60,6 +62,7 @@ export default {
                 //console.log(response)
                 if(response.data.status) {
                     this.totalCurtidas = response.data.curtidas;
+                    this.$store.commit('setConteudosLinhaTempo', response.data.lista.conteudos.data);
 
                     if(this.curtiu == 'favorite_border')
                         this.curtiu = 'favorite';
