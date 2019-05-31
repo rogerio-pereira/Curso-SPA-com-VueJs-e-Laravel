@@ -41,6 +41,8 @@
                     :link='item.link'
                 />
             </card-conteudo-vue>
+
+            <button v-if='urlProximaPagina' @click='carregaPaginacao()' class='btn blue'>Mais...</button>
         </span>
     </site-template>
 </template>
@@ -65,7 +67,8 @@ export default {
     },
     data () {
         return {
-            usuario:false
+            usuario:false,
+            urlProximaPagina: null
         }
     },
     created() {
@@ -80,9 +83,10 @@ export default {
                 }
             })
             .then(response => {
-                console.log(response)
+                //console.log(response)
                 if(response.data.status) {
                     this.$store.commit('setConteudosLinhaTempo', response.data.conteudos.data);
+                    this.urlProximaPagina = response.data.conteudos.next_page_url;
                 }
             })
             .catch(e => {
@@ -94,6 +98,29 @@ export default {
     computed:{
         listaConteudos(){
             return this.$store.getters.getConteudosLinhaTempo;
+        }
+    },
+    methods: {
+        carregaPaginacao() {
+            if(!this.urlProximaPagina) 
+                return;
+
+            this.$http.get(this.urlProximaPagina, {
+                'headers':{
+                    'authorization': 'Bearer '+this.$store.getters.getToken
+                }
+            })
+            .then(response => {
+                //console.log(response)
+                if(response.data.status) {
+                    this.$store.commit('setPaginacaoConteudosLinhaTempo', response.data.conteudos.data);
+                    this.urlProximaPagina = response.data.conteudos.next_page_url;
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                alert('Erro! Tente novamente mais tarde')
+            })
         }
     }
 }
