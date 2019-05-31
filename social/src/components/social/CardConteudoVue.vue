@@ -24,7 +24,7 @@
 
                     <a style='cursor:pointer;' @click='abreComentarios(id)'>
                         <i class='material-icons'>insert_comment</i>
-                        22
+                        {{totalComentarios}}
                     </a>
                 </p>
 
@@ -64,12 +64,14 @@ export default {
         'perfil',
         'nome',
         'data',
+        'totalcomentarios',
         'totalcurtidas',
         'curtiuconteudo'
     ],
     data () {
         return {
             curtiu: this.curtiuconteudo ? 'favorite' : 'favorite_border',
+            totalComentarios: this.totalcomentarios,
             totalCurtidas: this.totalcurtidas,
             exibirComentario: false
         }

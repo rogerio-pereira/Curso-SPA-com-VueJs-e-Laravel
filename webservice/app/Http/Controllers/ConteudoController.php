@@ -14,6 +14,7 @@ class ConteudoController extends Controller
         $user = $request->user();
 
         foreach($conteudos as $conteudo) {
+            $conteudo->comentarios = $conteudo->comentarios()->count();
             $conteudo->curtidas = $conteudo->curtidas()->count();
 
             $curtiu = $user->curtidas()->find($conteudo->id);
