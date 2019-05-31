@@ -13,7 +13,7 @@
                             <router-link :to="'/pagina/'+donoPagina.id+'/'+$slug(donoPagina.name, {lower: true})">
                                 <h5>{{donoPagina.name}}</h5>
 
-                                <button @click='amigo(donoPagina.id)' class='btn'>Seguir</button>
+                                <button v-if='exibeBtnSeguir' @click='amigo(donoPagina.id)' class='btn'>Seguir</button>
                             </router-link>
                         </span>
                     </grid-vue>
@@ -80,7 +80,8 @@ export default {
             donoPagina:{
                 'imagem':'',
                 'name':''
-            }
+            },
+            exibeBtnSeguir: false
         }
     },
     created() {
@@ -100,6 +101,9 @@ export default {
                     this.$store.commit('setConteudosLinhaTempo', response.data.conteudos.data);
                     this.urlProximaPagina = response.data.conteudos.next_page_url;
                     this.donoPagina = response.data.dono;
+
+                    if(this.donoPagina.id != this.usuario.id)
+                        this.exibeBtnSeguir = true;
                 }
             })
             .catch(e => {
