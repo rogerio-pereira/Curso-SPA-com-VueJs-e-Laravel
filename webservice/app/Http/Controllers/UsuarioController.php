@@ -177,4 +177,19 @@ class UsuarioController extends Controller
 
         return ['status' => true, 'usuario' => $user];
     }
+
+    public function amigo(Request $request)
+    {
+        $user = $request->user();
+        $amigo = User::find($request->id);
+
+        if($amigo) {
+            $user->amigos()->toggle($amigo->id);
+
+            return ['status' => true, 'amigos' => $user->amigos];
+        }
+        else {
+            return ['status' => true, 'erro' => 'Esse usuário não existe!'];
+        }
+    }
 }
