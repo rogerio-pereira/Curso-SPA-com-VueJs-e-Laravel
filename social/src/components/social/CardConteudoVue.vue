@@ -24,7 +24,7 @@
 
                     <a style='cursor:pointer;' @click='abreComentarios(id)'>
                         <i class='material-icons'>insert_comment</i>
-                        {{totalComentarios}}
+                        {{comentarios.length}}
                     </a>
                 </p>
 
@@ -37,11 +37,11 @@
 
                 <p v-if='exibirComentario'>
                     <ul class='collection'>
-                        <li class="collection-item avatar">
+                        <li class="collection-item avatar" v-for='item in comentarios' :key='item.id' >
                             <img src="https://materializecss.com/images/yuna.jpg" alt="" class="circle">
-                            <span class="title">Maria da Silva <small>12h30 12/12/2018</small></span>
+                            <span class="title">ID Usuario= {{item.user_id}} <small>{{item.data}}</small></span>
                             <p>
-                                Gostei
+                                {{item.texto}}
                             </p>
                         </li>
                     </ul>
@@ -64,7 +64,7 @@ export default {
         'perfil',
         'nome',
         'data',
-        'totalcomentarios',
+        'comentarios',
         'totalcurtidas',
         'curtiuconteudo'
     ],

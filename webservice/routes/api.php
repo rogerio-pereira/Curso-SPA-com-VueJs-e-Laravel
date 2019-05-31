@@ -21,6 +21,14 @@ Route::get('/testes', function(){
     /*$user = App\User::find(1);
     $user2 = App\User::find(3);*/
 
+    /*$conteudo = App\Conteudo::find(12);
+    $user->comentarios()->create([
+        'conteudo_id' => $conteudo->id,
+        'texto' => 'Show de bola',
+        'data' => date('Y-m-d H:i:s'),
+    ]);
+    return $conteudo->comentarios;*/
+
     //Apagando Conteudos
     /*$conteudos = App\Conteudo::all();
     foreach($conteudos as $conteudo)
