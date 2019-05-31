@@ -186,7 +186,11 @@ class UsuarioController extends Controller
         if($amigo && ($user->id != $amigo->id)) {
             $user->amigos()->toggle($amigo->id);
 
-            return ['status' => true, 'amigos' => $user->amigos];
+            return [
+                'status' => true, 
+                'amigos' => $user->amigos,
+                'seguidores' => $amigo->seguidores
+            ];
         }
         else {
             return ['status' => false, 'erro' => 'Esse usuário não existe!'];
@@ -198,10 +202,17 @@ class UsuarioController extends Controller
         $user = $request->user();
 
         if($user) {
-            return ['status' => true, 'amigos' => $user->amigos];
+            return [
+                'status' => true, 
+                'amigos' => $user->amigos,
+                'seguidores' => $user->seguidores
+            ];
         }
         else
-            return ['status' => false, 'erro' => 'Esse usuário não existe!'];
+            return [
+                'status' => false, 
+                'erro' => 'Esse usuário não existe!'
+            ];
     }
 
     public function listaAmigosPagina($id, Request $request)
@@ -210,9 +221,17 @@ class UsuarioController extends Controller
         $usuarioLogado = $request->user();
 
         if($user) {
-            return ['status' => true, 'amigos' => $user->amigos, 'amigosLogado' => $usuarioLogado->amigos];
+            return [
+                'status' => true, 
+                'amigos' => $user->amigos, 
+                'amigosLogado' => $usuarioLogado->amigos,
+                'seguidores' => $user->seguidores
+            ];
         }
         else
-            return ['status' => false, 'erro' => 'Esse usuário não existe!'];
+            return [
+                'status' => false, 
+                'erro' => 'Esse usuário não existe!'
+            ];
     }
 }

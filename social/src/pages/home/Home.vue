@@ -31,6 +31,18 @@
 
                 <li v-if='!amigos.length'>Nenhum usuario</li>
             </ul>
+
+            <h3>Seguidores</h3>
+
+            <ul>
+                <li v-for='item in seguidores' :key='item.id'>
+                    <router-link :to="'/pagina/'+item.id+'/'+$slug(item.name, {lower: true})">
+                        {{item.name}}
+                    </router-link>
+                </li>
+
+                <li v-if='!seguidores.length'>Nenhum usuario</li>
+            </ul>
         </span>
 
         <span slot='principal'>
@@ -88,6 +100,7 @@ export default {
             urlProximaPagina: null,
             pararScroll:false,
             amigos:[],
+            seguidores: [],
         }
     },
     created() {
@@ -116,7 +129,8 @@ export default {
                     .then(response => {
                         //console.log(response)
                         if(response.data.status) {
-                            this.amigos = response.data.amigos
+                            this.amigos = response.data.amigos;
+                            this.seguidores = response.data.seguidores;
                         }
                         else {
                             alert(response.data.erro);
