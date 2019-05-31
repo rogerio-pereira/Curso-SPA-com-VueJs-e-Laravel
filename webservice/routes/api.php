@@ -18,6 +18,8 @@ Route::middleware('auth:api')->get('/conteudo/lista', 'ConteudoController@lista'
 Route::middleware('auth:api')->put('/conteudo/curtir/{id}', 'ConteudoController@curtir');
 Route::middleware('auth:api')->put('/conteudo/comentar/{id}', 'ConteudoController@comentar');
 
+Route::middleware('auth:api')->get('/conteudo/pagina/lista/{id}', 'ConteudoController@pagina');
+
 Route::get('/testes', function(){
     /*$user = App\User::find(1);
     $user2 = App\User::find(3);*/

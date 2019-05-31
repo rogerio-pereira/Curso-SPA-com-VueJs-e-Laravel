@@ -78,7 +78,7 @@ export default {
         if(usuarioAux) {
             this.usuario = this.$store.getters.getUsuario;
 
-            this.$http.get(this.$urlAPI+'conteudo/lista', {
+            this.$http.get(this.$urlAPI+'conteudo/pagina/lista/'+this.$route.params.id, {
                 'headers':{
                     'authorization': 'Bearer '+this.$store.getters.getToken
                 }

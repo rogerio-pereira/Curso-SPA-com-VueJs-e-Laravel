@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\User;
 use App\Conteudo;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class ConteudoController extends Controller
@@ -26,6 +27,31 @@ class ConteudoController extends Controller
         }
 
         return ['status' => true, 'conteudos' => $conteudos];
+    }
+    public function pagina($id, Request $request)
+    {
+        $dono = User::find($id);
+        if($dono) {
+            $conteudos = $dono->conteudos()->with('user')->orderBy('data', 'DESC')->paginate(5);
+            $user = $request->user();
+
+            foreach($conteudos as $conteudo) {
+                $conteudo->comentarios = $conteudo->comentarios()->with('user')->get();
+                $conteudo->curtidas = $conteudo->curtidas()->count();
+
+                $curtiu = $user->curtidas()->find($conteudo->id);
+
+                if($curtiu)
+                    $conteudo->curtiuconteudo = true;
+                else
+                    $conteudo->curtiuconteudo = false;
+            }
+
+            return ['status' => true, 'conteudos' => $conteudos];
+        }
+        else {
+            return ['status' => false, 'erro' => 'Usuário não existe'];
+        }
     }
 
     public function adicionar(Request $request)
