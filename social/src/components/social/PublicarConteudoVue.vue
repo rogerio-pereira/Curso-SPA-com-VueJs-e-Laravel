@@ -50,6 +50,8 @@ export default {
             }).then(response => {
                 if(response.data.status){
                     console.log(response.data.conteudos);
+                    this.conteudo = {titulo:'', texto:'', link:'', imagem:''};
+                    this.$store.commit('setConteudosLinhaTempo', response.data.conteudos.data);
                 }
             })
             .catch(e => {

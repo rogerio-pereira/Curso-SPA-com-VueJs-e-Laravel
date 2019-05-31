@@ -24,7 +24,7 @@
             <publicar-conteudo-vue />
 
             <card-conteudo-vue 
-                v-for='item in this.conteudos' 
+                v-for='item in listaConteudos' 
                 :key='item.id' 
                 :perfil='item.user.imagem' 
                 :nome='item.user.name' 
@@ -60,8 +60,7 @@ export default {
     },
     data () {
         return {
-            usuario:false,
-            conteudos:[]
+            usuario:false
         }
     },
     created() {
@@ -78,7 +77,7 @@ export default {
             .then(response => {
                 console.log(response)
                 if(response.data.status) {
-                    this.conteudos = response.data.conteudos.data;
+                    this.$store.commit('setConteudosLinhaTempo', response.data.conteudos.data);
                 }
             })
             .catch(e => {
@@ -87,6 +86,11 @@ export default {
             })
         }
     },
+    computed:{
+        listaConteudos(){
+            return this.$store.getters.getConteudosLinhaTempo;
+        }
+    }
 }
 </script>
 
