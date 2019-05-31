@@ -148,7 +148,28 @@ export default {
             })
         },
         amigo(id) {
-            console.log('seguir '+id);
+            this.$http.post(this.$urlAPI+'usuario/amigo', 
+            {
+                'id': id
+            }, 
+            {
+                'headers':{
+                    'authorization': 'Bearer '+this.$store.getters.getToken
+                }
+            })
+            .then(response => {
+                //console.log(response)
+                if(response.data.status) {
+                    console.log(response)
+                }
+                else {
+                    alert(response.data.erro);
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                alert('Erro! Tente novamente mais tarde')
+            });
         }
     }
 }
