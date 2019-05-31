@@ -104,6 +104,24 @@ class ConteudoController extends Controller
             return ['status' => false, 'erro' => 'Conteúdo não existe!'];
     }
 
+    public function curtirpagina($id, Request $request)
+    {
+        $conteudo = Conteudo::find($id);
+        if($conteudo) {
+            $user = $request->user();
+            
+            $user->curtidas()->toggle($conteudo->id);
+
+            return [
+                'status' => true, 
+                'curtidas' => $conteudo->curtidas()->count(),
+                'lista' => $this->pagina($conteudo->user->id, $request),
+            ];
+        }
+        else
+            return ['status' => false, 'erro' => 'Conteúdo não existe!'];
+    }
+
     public function comentar($id, Request $request)
     {
         $conteudo = Conteudo::find($id);
@@ -131,6 +149,39 @@ class ConteudoController extends Controller
             return [
                 'status' => true, 
                 'lista' => $this->lista($request),
+            ];
+        }
+        else
+            return ['status' => false, 'erro' => 'Conteúdo não existe!'];
+    }
+
+    public function comentarpagina($id, Request $request)
+    {
+        $conteudo = Conteudo::find($id);
+        if($conteudo) {
+            $data = $request->all();
+            $validacao = Validator::make($data, [
+                'texto' => 'required',
+            ]);
+
+            if($validacao->fails())
+                return [
+                    'status' => false,
+                    'validacao' => true,
+                    'erros' => $validacao->errors()
+                ];
+
+            $user = $request->user();
+            
+            $user->comentarios()->create([
+                'conteudo_id' => $conteudo->id,
+                'texto' => $data['texto'],
+                'data' => date('Y-m-d H:i:s'),
+            ]);
+
+            return [
+                'status' => true, 
+                'lista' => $this->pagina($conteudo->user->id, $request),
             ];
         }
         else
