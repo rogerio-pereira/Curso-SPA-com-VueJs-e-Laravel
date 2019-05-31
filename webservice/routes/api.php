@@ -23,6 +23,8 @@ Route::middleware('auth:api')->put('/conteudo/comentar/{id}', 'ConteudoControlle
 Route::middleware('auth:api')->get('/conteudo/pagina/lista/{id}', 'ConteudoController@pagina');
 
 Route::middleware('auth:api')->post('/usuario/amigo', 'UsuarioController@amigo');
+Route::middleware('auth:api')->get('/usuario/lista-amigos', 'UsuarioController@listaAmigos');
+Route::middleware('auth:api')->get('/usuario/lista-amigos-pagina/{id}', 'UsuarioController@listaAmigosPagina');
 
 Route::get('/testes', function(){
     /*$user = App\User::find(1);
