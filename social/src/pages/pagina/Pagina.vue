@@ -13,7 +13,7 @@
                             <router-link :to="'/pagina/'+donoPagina.id+'/'+$slug(donoPagina.name, {lower: true})">
                                 <h5>{{donoPagina.name}}</h5>
 
-                                <button v-if='exibeBtnSeguir' @click='amigo(donoPagina.id)' class='btn'>Seguir</button>
+                                <button v-if='exibeBtnSeguir' @click='amigo(donoPagina.id)' class='btn'>{{textoBotao}}</button>
                             </router-link>
                         </span>
                     </grid-vue>
@@ -23,8 +23,14 @@
 
         <span slot='menu-esquerdo-amigos'>
             <h3>Seguindo</h3>
-            <li>Murilo</li>
-            <li>Gustavo</li>
+
+            <ul>
+                <li v-for='item in amigos' :key='item.id'>
+                    {{item.name}}
+                </li>
+
+                <li v-if='!amigos.length'>Nenhum usuario</li>
+            </ul>
         </span>
 
         <span slot='principal'>
@@ -82,7 +88,10 @@ export default {
                 'imagem':'',
                 'name':''
             },
-            exibeBtnSeguir: false
+            exibeBtnSeguir: false,
+            amigos:[],
+            amigosLogado:[],
+            textoBotao: 'Seguir'
         }
     },
     created() {
@@ -105,6 +114,28 @@ export default {
 
                     if(this.donoPagina.id != this.usuario.id)
                         this.exibeBtnSeguir = true;
+
+                    //Busca amigos
+                    this.$http.get(this.$urlAPI+'usuario/lista-amigos-pagina/'+this.donoPagina.id, {
+                        'headers':{
+                            'authorization': 'Bearer '+this.$store.getters.getToken
+                        }
+                    })
+                    .then(response => {
+                        //console.log(response)
+                        if(response.data.status) {
+                            this.amigos = response.data.amigos;
+                            this.amigosLogado = response.data.amigosLogado;
+                            this.eAmigo();
+                        }
+                        else {
+                            alert(response.data.erro);
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e)
+                        alert('Erro! Tente novamente mais tarde')
+                    })
                 }
             })
             .catch(e => {
@@ -119,6 +150,16 @@ export default {
         }
     },
     methods: {
+        eAmigo() {
+            for(let amigo of this.amigosLogado) {
+                if(amigo.id == this.donoPagina.id) {
+                    this.textoBotao = 'Remover';
+                    return;
+                }
+            }
+
+            this.textoBotao = 'Seguir';
+        },
         handleScroll() {
             // console.log(window.scrollY);
             // console.log(document.body.clientHeight);
@@ -165,7 +206,9 @@ export default {
             .then(response => {
                 //console.log(response)
                 if(response.data.status) {
-                    console.log(response)
+                    //console.log(response)
+                    this.amigosLogado = response.data.amigos;
+                    this.eAmigo();
                 }
                 else {
                     alert(response.data.erro);
