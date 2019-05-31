@@ -24,7 +24,9 @@
 
             <ul>
                 <li v-for='item in amigos' :key='item.id'>
-                    {{item.name}}
+                    <router-link :to="'/pagina/'+item.id+'/'+$slug(item.name, {lower: true})">
+                        {{item.name}}
+                    </router-link>
                 </li>
 
                 <li v-if='!amigos.length'>Nenhum usuario</li>

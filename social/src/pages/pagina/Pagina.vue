@@ -26,7 +26,9 @@
 
             <ul>
                 <li v-for='item in amigos' :key='item.id'>
-                    {{item.name}}
+                    <router-link :to="'/pagina/'+item.id+'/'+$slug(item.name, {lower: true})">
+                        {{item.name}}
+                    </router-link>
                 </li>
 
                 <li v-if='!amigos.length'>Nenhum usuario</li>
@@ -95,61 +97,69 @@ export default {
         }
     },
     created() {
-        let usuarioAux = this.$store.getters.getUsuario;
-
-        if(usuarioAux) {
-            this.usuario = this.$store.getters.getUsuario;
-
-            this.$http.get(this.$urlAPI+'conteudo/pagina/lista/'+this.$route.params.id, {
-                'headers':{
-                    'authorization': 'Bearer '+this.$store.getters.getToken
-                }
-            })
-            .then(response => {
-                //console.log(response)
-                if(response.data.status) {
-                    this.$store.commit('setConteudosLinhaTempo', response.data.conteudos.data);
-                    this.urlProximaPagina = response.data.conteudos.next_page_url;
-                    this.donoPagina = response.data.dono;
-
-                    if(this.donoPagina.id != this.usuario.id)
-                        this.exibeBtnSeguir = true;
-
-                    //Busca amigos
-                    this.$http.get(this.$urlAPI+'usuario/lista-amigos-pagina/'+this.donoPagina.id, {
-                        'headers':{
-                            'authorization': 'Bearer '+this.$store.getters.getToken
-                        }
-                    })
-                    .then(response => {
-                        //console.log(response)
-                        if(response.data.status) {
-                            this.amigos = response.data.amigos;
-                            this.amigosLogado = response.data.amigosLogado;
-                            this.eAmigo();
-                        }
-                        else {
-                            alert(response.data.erro);
-                        }
-                    })
-                    .catch(e => {
-                        console.log(e)
-                        alert('Erro! Tente novamente mais tarde')
-                    })
-                }
-            })
-            .catch(e => {
-                console.log(e)
-                alert('Erro! Tente novamente mais tarde')
-            })
-        }
+        this.atualizaPagina()
     },
     computed:{
         listaConteudos(){
             return this.$store.getters.getConteudosLinhaTempo;
         }
     },
+    watch: {
+        '$route':'atualizaPagina'
+    },
     methods: {
+        atualizaPagina() {
+            let usuarioAux = this.$store.getters.getUsuario;
+
+            if(usuarioAux) {
+                this.usuario = this.$store.getters.getUsuario;
+
+                this.$http.get(this.$urlAPI+'conteudo/pagina/lista/'+this.$route.params.id, {
+                    'headers':{
+                        'authorization': 'Bearer '+this.$store.getters.getToken
+                    }
+                })
+                .then(response => {
+                    //console.log(response)
+                    if(response.data.status) {
+                        this.$store.commit('setConteudosLinhaTempo', response.data.conteudos.data);
+                        this.urlProximaPagina = response.data.conteudos.next_page_url;
+                        this.donoPagina = response.data.dono;
+
+                        if(this.donoPagina.id != this.usuario.id)
+                            this.exibeBtnSeguir = true;
+                        else
+                            this.exibeBtnSeguir = false;
+
+                        //Busca amigos
+                        this.$http.get(this.$urlAPI+'usuario/lista-amigos-pagina/'+this.donoPagina.id, {
+                            'headers':{
+                                'authorization': 'Bearer '+this.$store.getters.getToken
+                            }
+                        })
+                        .then(response => {
+                            //console.log(response)
+                            if(response.data.status) {
+                                this.amigos = response.data.amigos;
+                                this.amigosLogado = response.data.amigosLogado;
+                                this.eAmigo();
+                            }
+                            else {
+                                alert(response.data.erro);
+                            }
+                        })
+                        .catch(e => {
+                            console.log(e)
+                            alert('Erro! Tente novamente mais tarde')
+                        })
+                    }
+                })
+                .catch(e => {
+                    console.log(e)
+                    alert('Erro! Tente novamente mais tarde')
+                })
+            }
+        },
         eAmigo() {
             for(let amigo of this.amigosLogado) {
                 if(amigo.id == this.donoPagina.id) {
