@@ -17,7 +17,11 @@
             </div>
             <div class="card-action">
                 <p>
-                    <a style='cursor:pointer;' @click='curtida(id)'><i class='material-icons'>{{curtiu}}</i>12</a>
+                    <a style='cursor:pointer;' @click='curtida(id)'>
+                        <i class='material-icons'>{{curtiu}}</i>
+                        {{totalCurtidas}}
+                    </a>
+
                     <i class='material-icons'>insert_comment</i>
                 </p>
             </div>
@@ -41,15 +45,35 @@ export default {
     ],
     data () {
         return {
-            curtiu:'favorite_border'
+            curtiu:'favorite_border',
+            totalCurtidas: 0
         }
     },
     methods: {
         curtida(id) {
-            if(this.curtiu == 'favorite_border')
-                this.curtiu = 'favorite';
-            else
-                this.curtiu = 'favorite_border';
+            this.$http.put(this.$urlAPI+'conteudo/curtir/'+this.id, {}, {
+                'headers':{
+                    'authorization': 'Bearer '+this.$store.getters.getToken
+                }
+            })
+            .then(response => {
+                //console.log(response)
+                if(response.data.status) {
+                    this.totalCurtidas = response.data.curtidas;
+
+                    if(this.curtiu == 'favorite_border')
+                        this.curtiu = 'favorite';
+                    else
+                        this.curtiu = 'favorite_border'; 
+                }
+                else {
+                    alert(response.data.erro);
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                alert('Erro! Tente novamente mais tarde')
+            });
         }
     }
 }
