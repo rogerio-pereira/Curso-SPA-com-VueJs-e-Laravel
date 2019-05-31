@@ -4,11 +4,15 @@
             <div class="card-content">
                 <div class="row valign-wrapper">
                     <grid-vue tamanho="1">
-                        <img :src="perfil" :alt="nome" class="circle responsive-img"> <!-- notice the "circle" class -->
+                        <router-link :to="'/pagina/'+usuarioId">
+                            <img :src="perfil" :alt="nome" class="circle responsive-img"> <!-- notice the "circle" class -->
+                        </router-link>
                     </grid-vue>
                     <grid-vue tamanho="11">
                         <span>
-                            <strong>{{nome}}</strong> - <small>{{data}}</small>
+                            <router-link :to="'/pagina/'+usuarioId">
+                                <strong>{{nome}}</strong> - <small>{{data}}</small>
+                            </router-link>
                         </span>
                     </grid-vue>
                 </div>
@@ -66,7 +70,8 @@ export default {
         'data',
         'comentarios',
         'totalcurtidas',
-        'curtiuconteudo'
+        'curtiuconteudo',
+        'usuarioId'
     ],
     data () {
         return {

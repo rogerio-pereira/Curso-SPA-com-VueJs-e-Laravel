@@ -4,11 +4,15 @@
             <card-menu-vue>
                 <div class="row valign-wrapper">
                     <grid-vue tamanho="4">
-                        <img :src="usuario.imagem" :alt="usuario.name" class="circle responsive-img"> <!-- notice the "circle" class -->
+                        <router-link :to="'/pagina/'+usuario.id">
+                            <img :src="usuario.imagem" :alt="usuario.name" class="circle responsive-img"> <!-- notice the "circle" class -->
+                        </router-link>
                     </grid-vue>
                     <grid-vue tamanho="8">
                         <span class="black-text">
-                            <h5>{{usuario.name}}</h5>
+                            <router-link :to="'/pagina/'+usuario.id">
+                                <h5>{{usuario.name}}</h5>
+                            </router-link>
                         </span>
                     </grid-vue>
                 </div>
@@ -30,6 +34,7 @@
                 :comentarios='item.comentarios'
                 :totalcurtidas='item.curtidas'
                 :curtiuconteudo='item.curtiuconteudo'
+                :usuarioId='item.user.id' 
                 :perfil='item.user.imagem' 
                 :nome='item.user.name' 
                 :data='item.data'
