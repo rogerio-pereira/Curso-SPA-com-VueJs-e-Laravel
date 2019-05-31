@@ -11,8 +11,10 @@ class ConteudoController extends Controller
 {
     public function lista(Request $request)
     {
-        $conteudos = Conteudo::with('user')->orderBy('data', 'DESC')->paginate(5);
         $user = $request->user();
+        $amigos = $user->amigos()->pluck('id');
+        $amigos[] = $user->id;
+        $conteudos = Conteudo::whereIn('user_id', $amigos)->with('user')->orderBy('data', 'DESC')->paginate(5);
 
         foreach($conteudos as $conteudo) {
             $conteudo->comentarios = $conteudo->comentarios()->with('user')->get();

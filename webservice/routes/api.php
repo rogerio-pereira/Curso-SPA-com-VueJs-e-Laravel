@@ -29,6 +29,14 @@ Route::middleware('auth:api')->get('/usuario/lista-amigos', 'UsuarioController@l
 Route::middleware('auth:api')->get('/usuario/lista-amigos-pagina/{id}', 'UsuarioController@listaAmigosPagina');
 
 Route::get('/testes', function(){
+
+    $user = App\User::find(1);
+    $amigos = $user->amigos()->pluck('id');
+    $amigos[] = $user->id;
+    $conteudos = App\Conteudo::whereIn('user_id', $amigos)->with('user')->orderBy('data', 'DESC')->get();
+
+    dd($conteudos);
+
     /*$user = App\User::find(1);
     $user2 = App\User::find(3);*/
 
