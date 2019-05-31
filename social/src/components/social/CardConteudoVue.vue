@@ -4,13 +4,13 @@
             <div class="card-content">
                 <div class="row valign-wrapper">
                     <grid-vue tamanho="1">
-                        <router-link :to="'/pagina/'+usuarioId">
+                        <router-link :to="'/pagina/'+usuarioId+'/'+$slug(nome, {lower: true})">
                             <img :src="perfil" :alt="nome" class="circle responsive-img"> <!-- notice the "circle" class -->
                         </router-link>
                     </grid-vue>
                     <grid-vue tamanho="11">
                         <span>
-                            <router-link :to="'/pagina/'+usuarioId">
+                            <router-link :to="'/pagina/'+usuarioId+'/'+$slug(nome, {lower: true})">
                                 <strong>{{nome}}</strong> - <small>{{data}}</small>
                             </router-link>
                         </span>
