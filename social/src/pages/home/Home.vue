@@ -26,6 +26,7 @@
             <card-conteudo-vue 
                 v-for='item in listaConteudos' 
                 :key='item.id' 
+                :id='item.id' 
                 :perfil='item.user.imagem' 
                 :nome='item.user.name' 
                 :data='item.data'
