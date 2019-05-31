@@ -22,15 +22,15 @@
                         {{totalCurtidas}}
                     </a>
 
-                    <a style='cursor:pointer;' @click='abreComentarios(id)'>
+                    <a style='cursor:pointer;' @click='abreComentarios'>
                         <i class='material-icons'>insert_comment</i>
                         {{comentarios.length}}
                     </a>
                 </p>
 
                 <p  v-if='exibirComentario' class='right-align'>
-                    <input type='text' placeholder='Comentar'>
-                    <button class='btn waves-effect waves-light orange'>
+                    <input type='text' v-model='textoComentario' placeholder='Comentar'>
+                    <button v-if='textoComentario' @click='comentar(id)' class='btn waves-effect waves-light orange'>
                         <i class='material-icons'>send</i>
                     </button>
                 </p>
@@ -73,7 +73,8 @@ export default {
             curtiu: this.curtiuconteudo ? 'favorite' : 'favorite_border',
             totalComentarios: this.totalcomentarios,
             totalCurtidas: this.totalcurtidas,
-            exibirComentario: false
+            exibirComentario: false,
+            textoComentario: ''
         }
     },
     methods: {
@@ -103,7 +104,42 @@ export default {
                 alert('Erro! Tente novamente mais tarde')
             });
         },
-        abreComentarios(id) {
+        comentar(id) {
+            if(!this.textoComentario) 
+                return;
+
+            this.$http.put(this.$urlAPI+'conteudo/comentar/'+this.id, 
+            {
+                'texto': this.textoComentario 
+            }, 
+            {
+                'headers':{
+                    'authorization': 'Bearer '+this.$store.getters.getToken
+                }
+            })
+            .then(response => {
+                //console.log(response)
+                if(response.data.status) {
+                    this.textoComentario = '';
+                    this.$store.commit('setConteudosLinhaTempo', response.data.lista.conteudos.data);
+                }
+                else if(response.data.status == false && response.data.validacao) {
+                    //Erros de validação
+                    let errors = '';
+
+                    for(let error of Object.values(response.data.erros)) {
+                        errors += error + " ";
+                    }
+
+                    alert(errors)
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                alert('Erro! Tente novamente mais tarde')
+            });
+        },
+        abreComentarios() {
             this.exibirComentario = !this.exibirComentario;
         }
     }

@@ -16,6 +16,7 @@ Route::middleware('auth:api')->put('/perfil', 'UsuarioController@perfil');
 Route::middleware('auth:api')->post('/conteudo/adicionar', 'ConteudoController@adicionar');
 Route::middleware('auth:api')->get('/conteudo/lista', 'ConteudoController@lista');
 Route::middleware('auth:api')->put('/conteudo/curtir/{id}', 'ConteudoController@curtir');
+Route::middleware('auth:api')->put('/conteudo/comentar/{id}', 'ConteudoController@comentar');
 
 Route::get('/testes', function(){
     /*$user = App\User::find(1);
