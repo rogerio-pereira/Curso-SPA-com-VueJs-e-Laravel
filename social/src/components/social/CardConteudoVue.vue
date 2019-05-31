@@ -24,7 +24,7 @@
 
                     <a style='cursor:pointer;' @click='abreComentarios'>
                         <i class='material-icons'>insert_comment</i>
-                        {{comentarios.length}}
+                        {{listaComentarios.length}}
                     </a>
                 </p>
 
@@ -72,9 +72,10 @@ export default {
         return {
             curtiu: this.curtiuconteudo ? 'favorite' : 'favorite_border',
             totalComentarios: this.totalcomentarios,
-            totalCurtidas: this.totalcurtidas,
+            totalCurtidas: this.totalcurtidas || 0,
             exibirComentario: false,
-            textoComentario: ''
+            textoComentario: '',
+            listaComentarios: this.comentarios || []
         }
     },
     methods: {
