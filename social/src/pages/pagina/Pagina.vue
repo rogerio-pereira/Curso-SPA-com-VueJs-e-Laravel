@@ -4,11 +4,11 @@
             <card-menu-vue>
                 <div class="row valign-wrapper">
                     <grid-vue tamanho="4">
-                        <img :src="usuario.imagem" :alt="usuario.name" class="circle responsive-img"> <!-- notice the "circle" class -->
+                        <img :src="donoPagina.imagem" :alt="donoPagina.name" class="circle responsive-img"> <!-- notice the "circle" class -->
                     </grid-vue>
                     <grid-vue tamanho="8">
                         <span class="black-text">
-                            <h5>{{usuario.name}}</h5>
+                            <h5>{{donoPagina.name}}</h5>
                         </span>
                     </grid-vue>
                 </div>
@@ -69,7 +69,11 @@ export default {
         return {
             usuario:false,
             urlProximaPagina: null,
-            pararScroll:false
+            pararScroll:false,
+            donoPagina:{
+                'imagem':'',
+                'name':''
+            }
         }
     },
     created() {
@@ -88,6 +92,7 @@ export default {
                 if(response.data.status) {
                     this.$store.commit('setConteudosLinhaTempo', response.data.conteudos.data);
                     this.urlProximaPagina = response.data.conteudos.next_page_url;
+                    this.donoPagina = response.data.dono;
                 }
             })
             .catch(e => {

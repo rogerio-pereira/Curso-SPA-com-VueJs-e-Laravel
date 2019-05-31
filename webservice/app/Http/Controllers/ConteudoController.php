@@ -47,7 +47,7 @@ class ConteudoController extends Controller
                     $conteudo->curtiuconteudo = false;
             }
 
-            return ['status' => true, 'conteudos' => $conteudos];
+            return ['status' => true, 'conteudos' => $conteudos, 'dono' => $dono];
         }
         else {
             return ['status' => false, 'erro' => 'Usuário não existe'];
