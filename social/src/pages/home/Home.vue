@@ -17,11 +17,18 @@
                     </grid-vue>
                 </div>
             </card-menu-vue>
-            <card-menu-vue>
-                <h3>Amigos</h3>
-                <li>Murilo</li>
-                <li>Gustavo</li>
-            </card-menu-vue>
+        </span>
+
+        <span slot='menu-esquerdo-amigos'>
+            <h3>Seguindo</h3>
+
+            <ul>
+                <li v-for='item in amigos' :key='item.id'>
+                    {{item.name}}
+                </li>
+
+                <li v-if='!amigos.length'>Nenhum usuario</li>
+            </ul>
         </span>
 
         <span slot='principal'>
@@ -77,7 +84,8 @@ export default {
                 'name':''
             },
             urlProximaPagina: null,
-            pararScroll:false
+            pararScroll:false,
+            amigos:[],
         }
     },
     created() {
@@ -96,6 +104,26 @@ export default {
                 if(response.data.status) {
                     this.$store.commit('setConteudosLinhaTempo', response.data.conteudos.data);
                     this.urlProximaPagina = response.data.conteudos.next_page_url;
+
+                    //Busca amigos
+                    this.$http.get(this.$urlAPI+'usuario/lista-amigos', {
+                        'headers':{
+                            'authorization': 'Bearer '+this.$store.getters.getToken
+                        }
+                    })
+                    .then(response => {
+                        //console.log(response)
+                        if(response.data.status) {
+                            this.amigos = response.data.amigos
+                        }
+                        else {
+                            alert(response.data.erro);
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e)
+                        alert('Erro! Tente novamente mais tarde')
+                    })
                 }
             })
             .catch(e => {

@@ -19,11 +19,12 @@
                     </grid-vue>
                 </div>
             </card-menu-vue>
-            <card-menu-vue>
-                <h3>Amigos</h3>
-                <li>Murilo</li>
-                <li>Gustavo</li>
-            </card-menu-vue>
+        </span>
+
+        <span slot='menu-esquerdo-amigos'>
+            <h3>Seguindo</h3>
+            <li>Murilo</li>
+            <li>Gustavo</li>
         </span>
 
         <span slot='principal'>

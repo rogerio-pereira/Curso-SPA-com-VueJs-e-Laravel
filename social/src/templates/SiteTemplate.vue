@@ -15,6 +15,10 @@
                 <div class='row'>
                     <grid-vue tamanho="4">
                         <slot name='menu-esquerdo' />
+                        
+                        <card-menu-vue>
+                            <slot name='menu-esquerdo-amigos' />
+                        </card-menu-vue>
                     </grid-vue>
 
                     <grid-vue tamanho="8">
@@ -37,13 +41,15 @@
 import Navbar from '@/components/layouts/Navbar'
 import FooterVue from '@/components/layouts/FooterVue'
 import GridVue from '@/components/layouts/GridVue'
+import CardMenuVue from '@/components/layouts/CardMenuVue'
 
 export default {
     name: 'SiteTemplate',
     components: {
         Navbar,
         FooterVue,
-        GridVue
+        GridVue,
+        CardMenuVue
     },
     data() {
         return {
