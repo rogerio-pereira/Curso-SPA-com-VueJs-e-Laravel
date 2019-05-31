@@ -157,8 +157,11 @@ class UsuarioController extends Controller
             $file = base64_decode($file);
 
             if($user->imagem){
-                if(file_exists($user->imagem)) {
-                    Storage::delete($user->imagem);
+                $imgUser = $user->imagem;
+                $imgUser = str_replace(asset('/'), '', $imgUser);
+
+                if(file_exists($imgUser)) {
+                    Storage::delete($imgUser);
                 }
             }
 
