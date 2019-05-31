@@ -34,6 +34,7 @@
                     :imagem='item.imagem' 
                     :titulo='item.titulo'
                     :texto='item.texto'
+                    :link='item.link'
                 />
             </card-conteudo-vue>
         </span>

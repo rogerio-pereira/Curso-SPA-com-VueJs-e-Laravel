@@ -53,6 +53,16 @@ export default {
                     this.conteudo = {titulo:'', texto:'', link:'', imagem:''};
                     this.$store.commit('setConteudosLinhaTempo', response.data.conteudos.data);
                 }
+                else if(response.data.status == false && response.data.validacao) {
+                    //Erro de validação
+                    let errors = '';
+
+                    for(let error of Object.values(response.data.erros)) {
+                        errors += error + " ";
+                    }
+
+                    alert(errors)
+                }
             })
             .catch(e => {
                 console.log(e)
