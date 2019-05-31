@@ -12,6 +12,8 @@
                         <span class="black-text">
                             <router-link :to="'/pagina/'+donoPagina.id+'/'+$slug(donoPagina.name, {lower: true})">
                                 <h5>{{donoPagina.name}}</h5>
+
+                                <button @click='amigo(donoPagina.id)' class='btn'>Seguir</button>
                             </router-link>
                         </span>
                     </grid-vue>
@@ -134,7 +136,7 @@ export default {
             })
             .then(response => {
                 //console.log(response)
-                if(response.data.status) {
+                if(response.data.status && this.$route.name == 'Pagina') {
                     this.$store.commit('setPaginacaoConteudosLinhaTempo', response.data.conteudos.data);
                     this.urlProximaPagina = response.data.conteudos.next_page_url;
                     this.pararScroll = false;
@@ -144,6 +146,9 @@ export default {
                 console.log(e)
                 alert('Erro! Tente novamente mais tarde')
             })
+        },
+        amigo(id) {
+            console.log('seguir '+id);
         }
     }
 }

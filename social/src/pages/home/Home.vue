@@ -72,7 +72,10 @@ export default {
     },
     data () {
         return {
-            usuario:false,
+            usuario:{
+                'imagem':'',
+                'name':''
+            },
             urlProximaPagina: null,
             pararScroll:false
         }
@@ -129,7 +132,7 @@ export default {
             })
             .then(response => {
                 //console.log(response)
-                if(response.data.status) {
+                if(response.data.status && this.$route.name == 'Home') {
                     this.$store.commit('setPaginacaoConteudosLinhaTempo', response.data.conteudos.data);
                     this.urlProximaPagina = response.data.conteudos.next_page_url;
                     this.pararScroll = false;
